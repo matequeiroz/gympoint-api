@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./src/App.js",
-    "dev:debug": "nodnemon --inspect ./src/App.js"
+    "dev:debug": "nodemon --inspect ./src/App.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
