@@ -19,7 +19,6 @@ class UserController {
         await schemaUserStore.validate(req.body);
       } catch (error) {
         return res.status(400).json({
-          payload: {},
           errors: [{ field: error.path, message: error.errors[0] }],
         });
       }

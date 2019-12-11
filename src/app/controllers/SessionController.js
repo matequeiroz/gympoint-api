@@ -19,6 +19,7 @@ class SessionController {
   async signin(req, res) {
     try {
       try {
+        // validate request body
         await schemaSessionSignin.validate(req.body);
       } catch (error) {
         return res.status(400).json({
