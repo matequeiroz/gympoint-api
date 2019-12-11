@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import { schemaUserStore } from '../validators/UserController';
 
 /**
  * @author Mateus Queiroz
@@ -14,6 +15,14 @@ class UserController {
    */
   async store(req, res) {
     try {
+      try {
+        await schemaUserStore.validate(req.body);
+      } catch (error) {
+        return res.status(400).json({
+          payload: {},
+          errors: [{ field: error.path, message: error.errors[0] }],
+        });
+      }
       const { username, email } = req.body;
       // verify if exist one user with username provider
       const userExistWithUsername = await User.findOne({ where: { username } });
