@@ -13,10 +13,14 @@ const routes = new Router();
  */
 
 routes.post('/user', UserController.store);
+
 routes.post('/signin', SessionController.signin);
 
 routes.post('/plan', auth, PlanController.store);
+routes.delete('/plan/:id', auth, PlanController.destroy);
+routes.get('/plans', auth, PlanController.index);
 
 routes.post('/student', auth, StudentController.store);
+routes.delete('/student/:id', auth, StudentController.destroy);
 
 export default routes;

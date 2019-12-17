@@ -59,6 +59,53 @@ class StudentController {
       });
     }
   }
+
+  async destroy(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id)
+        return res.status(400).json({
+          errors: [
+            {
+              message: 'Id not provider',
+            },
+          ],
+        });
+
+      const student = await Student.findOne({
+        where: {
+          id,
+        },
+      });
+
+      if (!student)
+        return res.status(404).json({
+          errors: [
+            {
+              message: 'Student not exist',
+            },
+          ],
+        });
+
+      await Student.destroy({
+        where: {
+          id,
+        },
+      });
+
+      return res.status(204).end();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [
+          {
+            message: 'Internal server error',
+          },
+        ],
+      });
+    }
+  }
 }
 
 export default new StudentController();
