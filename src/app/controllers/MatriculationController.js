@@ -162,6 +162,46 @@ class MatriculationController {
       });
     }
   }
+
+  /**
+   * @author Mateus Queiroz
+   * @description Delete one matriculation
+   */
+  async destroy(req, res) {
+    try {
+      const { id } = req.params;
+
+      // search matriculation by pk
+      const matriculation = await Matriculation.findByPk(id);
+      if (!matriculation) {
+        return res.status(404).json({
+          errors: [
+            {
+              message: 'Matriculation not found',
+            },
+          ],
+        });
+      }
+
+      // delete matriculation
+      await Matriculation.destroy({
+        where: {
+          id,
+        },
+        limit: 1,
+      });
+      return res.status(204).end();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [
+          {
+            message: 'Internal server error',
+          },
+        ],
+      });
+    }
+  }
 }
 
 export default new MatriculationController();
