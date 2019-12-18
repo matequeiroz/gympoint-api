@@ -64,7 +64,7 @@ class StudentController {
     try {
       const { id } = req.params;
 
-      if (!id)
+      if (!id) {
         return res.status(400).json({
           errors: [
             {
@@ -72,6 +72,7 @@ class StudentController {
             },
           ],
         });
+      }
 
       const student = await Student.findOne({
         where: {
@@ -79,7 +80,7 @@ class StudentController {
         },
       });
 
-      if (!student)
+      if (!student) {
         return res.status(404).json({
           errors: [
             {
@@ -87,6 +88,7 @@ class StudentController {
             },
           ],
         });
+      }
 
       await Student.destroy({
         where: {
@@ -95,6 +97,27 @@ class StudentController {
       });
 
       return res.status(204).end();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [
+          {
+            message: 'Internal server error',
+          },
+        ],
+      });
+    }
+  }
+
+  async index(req, res) {
+    try {
+      const { page = 1 } = req.query;
+      const students = await Student.findAll({
+        limit: 20,
+        offset: (page - 1) * 20,
+        attributes: ['id', 'name', 'email'],
+      });
+      return res.status(200).json(students);
     } catch (error) {
       console.error(error);
       return res.status(500).json({
