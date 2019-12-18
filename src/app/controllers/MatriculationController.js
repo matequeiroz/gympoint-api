@@ -112,6 +112,56 @@ class MatriculationController {
       });
     }
   }
+
+  /**
+   * @author Mateus Queiroz
+   * @description return matriculation with id provider
+   */
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+
+      // search matriculation with id provider
+      const matriculation = await Matriculation.findByPk(id, {
+        attributes: ['id', 'price', 'start_date', 'end_date'],
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['id', 'name', 'email'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['id', 'title', 'price_monthly', 'duration'],
+          },
+        ],
+      });
+
+      // verify if exists matriculation with id
+      if (!matriculation) {
+        return res.status(404).json({
+          errors: [
+            {
+              message: 'Matriculation not found',
+            },
+          ],
+        });
+      }
+
+      // return matriculation
+      return res.status(200).json(matriculation);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [
+          {
+            message: 'Internal server error',
+          },
+        ],
+      });
+    }
+  }
 }
 
 export default new MatriculationController();

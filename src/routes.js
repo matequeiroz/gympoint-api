@@ -32,5 +32,6 @@ routes.delete('/student/:id', auth, StudentController.destroy);
 
 // routes of matriculations
 routes.post('/matriculation', auth, MatriculationController.store);
+routes.get('/matriculation/:id', auth, MatriculationController.show);
 
 export default routes;
