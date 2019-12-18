@@ -18,5 +18,6 @@ module.exports = {
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
     'comma-dangle': 'off',
+    'nonblock-statement-body-position': 'off',
   },
 };

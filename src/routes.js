@@ -18,6 +18,7 @@ routes.post('/signin', SessionController.signin);
 
 routes.post('/plan', auth, PlanController.store);
 routes.delete('/plan/:id', auth, PlanController.destroy);
+routes.put('/plan/:id', auth, PlanController.update);
 routes.get('/plans', auth, PlanController.index);
 
 routes.post('/student', auth, StudentController.store);
