@@ -5,6 +5,8 @@ import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import MatriculationController from './app/controllers/MatriculationController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOrderStudentController from './app/controllers/HelpOrderStudentController';
+import HelpOrderController from './app/controllers/HelpOrderController';
 import auth from './app/middlewares/auth';
 
 const routes = new Router();
@@ -32,6 +34,12 @@ routes.get('/students', auth, StudentController.index);
 routes.delete('/student/:id', auth, StudentController.destroy);
 routes.post('/student/:id/checkin', CheckinController.store);
 routes.get('/student/:id/checkin', CheckinController.index);
+routes.post('/student/:id/help-order', HelpOrderStudentController.store);
+routes.get('/student/:id/help-orders', HelpOrderStudentController.index);
+
+// routes of help orders for academy
+routes.get('/help-orders', auth, HelpOrderController.index);
+routes.put('/help-order/:id/answer', auth, HelpOrderController.update);
 
 // routes of matriculations
 routes.post('/matriculation', auth, MatriculationController.store);
