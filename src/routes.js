@@ -31,6 +31,7 @@ routes.post('/student', auth, StudentController.store);
 routes.get('/students', auth, StudentController.index);
 routes.delete('/student/:id', auth, StudentController.destroy);
 routes.post('/student/:id/checkin', CheckinController.store);
+routes.get('/student/:id/checkin', CheckinController.index);
 
 // routes of matriculations
 routes.post('/matriculation', auth, MatriculationController.store);

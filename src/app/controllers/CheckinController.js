@@ -84,6 +84,55 @@ class CheckinController {
       });
     }
   }
+
+  /**
+   * @author Mateus Queiroz
+   * @description List all check ins of student
+   * @async
+   */
+  async index(req, res) {
+    const { page = 1 } = req.query;
+    const { id: student_id } = req.params;
+
+    try {
+      // verify if student exists in database
+      if (!(await Student.findByPk(student_id))) {
+        return res.status(404).json({
+          errors: [
+            {
+              message: 'Student not exists',
+            },
+          ],
+        });
+      }
+
+      // get all check ins by paginate with limit 5
+      const { count: total, rows: data } = await Checkin.findAndCountAll({
+        where: {
+          student_id,
+        },
+        attributes: ['id', 'createdAt'],
+        include: {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name', 'email'],
+        },
+        limit: 5,
+        offset: (page - 1) * 5,
+      });
+
+      return res.status(200).json({ total, data });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        errors: [
+          {
+            message: 'Internal server error',
+          },
+        ],
+      });
+    }
+  }
 }
 
 export default new CheckinController();
