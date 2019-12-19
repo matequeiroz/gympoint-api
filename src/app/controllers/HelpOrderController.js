@@ -3,11 +3,22 @@ import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 import { schemaHelpOrderStore } from '../validators/HelpOrderController';
 
+/**
+ * @author Mateus Queiroz
+ * @class
+ * @description Class for control operations of help orders for academy
+ */
 class HelpOrderController {
+  /**
+   * @author Mateus Queiroz
+   * @method index
+   * @description return all help orders filter by help orders 'open', 'closed' or 'all'
+   */
   async index(req, res) {
     try {
       const { page = 1, status = '' } = req.query;
 
+      // get all help order basead in status query param
       const { count: total, rows: data } = await HelpOrder.findAndCountAll({
         where: {
           answer:
@@ -44,6 +55,11 @@ class HelpOrderController {
     }
   }
 
+  /**
+   * @author Mateus Queiroz
+   * @method update
+   * @description update help order
+   */
   async update(req, res) {
     try {
       try {
